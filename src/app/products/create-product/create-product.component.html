@@ -1,0 +1,42 @@
+<div class="container mt-4">
+  <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+    <fieldset>
+      <legend class="mt-4 mb-3">Detalhes do produto</legend>
+      <div class="row">
+        <div class="col-4">
+          <mat-form-field appearance="outline">
+            <mat-label>Nome</mat-label>
+            <input formControlName="name" matInput type="text" />
+            <mat-error>Campo nome inválido</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Categoria</mat-label>
+            <input formControlName="category" matInput type="text"/>
+            <mat-error>Campo categoria inválido</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field appearance="outline">
+            <mat-label>Descrição</mat-label>
+            <input type="text" formControlName="description" matInput />
+            <mat-error>Campo descrição inválido</mat-error>
+          </mat-form-field>
+        </div>
+
+      </div>
+    </fieldset>
+
+    <div class="mt-3">
+      <button
+        type="submit"
+        mat-flat-button
+        color="primary"
+        [disabled]="productForm.invalid"
+      >
+        Salvar
+      </button>
+    </div>
+  </form>
+</div>

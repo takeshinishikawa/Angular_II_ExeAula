@@ -1,3 +1,6 @@
+import { ListProductsComponent } from './products/list-products/list-products.component';
+import { CreateProductComponent } from './products/create-product/create-product.component';
+import ProductsComponent from './products/products.component';
 import { ListComponent } from './users/components/list/list.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -16,6 +19,7 @@ import { MatCardModule } from '@angular/material/card';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
 
 
@@ -27,7 +31,7 @@ const material = [
   MatDividerModule,
   MatFormFieldModule,
   MatSelectModule,
-  ReactiveFormsModule,
+  MatInputModule
 ];
 
 @NgModule({
@@ -37,6 +41,9 @@ const material = [
     CreateUsersComponent,
     NotFoundComponent,
     ListComponent,
+    ProductsComponent,
+    CreateProductComponent,
+    ListProductsComponent
   ],
   providers: [provideNgxMask()],
   bootstrap: [AppComponent],
@@ -44,6 +51,7 @@ const material = [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
     material,
     NgxMaskDirective,
     NgxMaskPipe,

@@ -2,6 +2,9 @@ import { Address } from './../../models/address.model';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from '../../models/user.model';
+import { State } from '../../models/state.model';
+import { UsersService } from '../../services/users.service';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-user',
@@ -9,13 +12,33 @@ import { User } from '../../models/user.model';
   styleUrls: ['./create-user.component.css'],
 })
 export class CreateUsersComponent implements OnInit {
-  constructor() {}
+  constructor(
+    private usersService: UsersService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
-  userForm!: FormGroup;
+  public userForm!: FormGroup;
+  public user!: User;
+  public states!: State[];
+  public userId!: string;
 
   ngOnInit() {
     this.buildForm();
+    this.getStates();
+    this.getRouteParams();
+    this.setFormValue();
   }
+
+  private getRouteParams() {
+    this.userId = this.activatedRoute.snapshot.params['id'];
+  }
+
+  private setFormValue() {
+    const user = this.usersService.getUserById(this.userId);
+    this.userForm.patchValue(user);
+  }
+
   private buildForm(): void {
     this.userForm = new FormGroup({
       name: new FormControl(null, [
@@ -82,16 +105,12 @@ export class CreateUsersComponent implements OnInit {
   }
 
   public onSubmit(): void {
-    let users: User[] = JSON.parse(localStorage.getItem('USERS') || '[]');
-    //console.log(this.userForm.value.name);
-    //const value = this.userForm.value;
-    let user: User = this.userForm.value;
+    const user = this.userForm.getRawValue();
     user.id = this.generateUUID();
     user.address.id = this.generateUUID();
-    users.push(user);
-
-    localStorage.setItem('USERS', JSON.stringify(users));
+    this.usersService.saveUser(user);
     this.userForm.reset();
+    this.router.navigate(['/users']);
   }
 
   public keyPress(event: any) {
@@ -103,6 +122,10 @@ export class CreateUsersComponent implements OnInit {
     }
   }
 
+  private getStates(): void {
+    this.states = this.usersService.getStatesOfBrazil();
+  }
+
   get f() {
     return this.userForm.controls;
   }
@@ -111,19 +134,29 @@ export class CreateUsersComponent implements OnInit {
     this.userForm.reset();
   }
 
-  public generateUUID() { // Public Domain/MIT
-    var d = new Date().getTime();//Timestamp
-    var d2 = ((typeof performance !== 'undefined') && performance.now && (performance.now()*1000)) || 0;//Time in microseconds since page-load or 0 if unsupported
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        var r = Math.random() * 16;//random number between 0 and 16
-        if(d > 0){//Use timestamp until depleted
-            r = (d + r)%16 | 0;
-            d = Math.floor(d/16);
-        } else {//Use microseconds since page-load if supported
-            r = (d2 + r)%16 | 0;
-            d2 = Math.floor(d2/16);
+  public generateUUID() {
+    // Public Domain/MIT
+    var d = new Date().getTime(); //Timestamp
+    var d2 =
+      (typeof performance !== 'undefined' &&
+        performance.now &&
+        performance.now() * 1000) ||
+      0; //Time in microseconds since page-load or 0 if unsupported
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
+      /[xy]/g,
+      function (c) {
+        var r = Math.random() * 16; //random number between 0 and 16
+        if (d > 0) {
+          //Use timestamp until depleted
+          r = (d + r) % 16 | 0;
+          d = Math.floor(d / 16);
+        } else {
+          //Use microseconds since page-load if supported
+          r = (d2 + r) % 16 | 0;
+          d2 = Math.floor(d2 / 16);
         }
-        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
-    });
-}
+        return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16);
+      }
+    );
+  }
 }

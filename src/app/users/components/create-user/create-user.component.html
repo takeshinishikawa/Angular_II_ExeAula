@@ -1,342 +1,132 @@
-<form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="m-5">
-  <!-- DADOS PESSOAIS -->
-  <div class="mb-3 form-group">
-    <label for="name" class="col-form-label">Nome:</label>
-    <input
-      type="text"
-      class="form-control"
-      formControlName="name"
-      id="name"
-      [ngClass]="{
-        'is-invalid': f['name'].errors && f['name'].touched,
-        'is-valid': !f['name'].errors && f['name'].touched
-      }"
-    />
-    <div *ngIf="f['name'].errors && f['name'].touched" class="invalid-feedback">
-      <div *ngIf="f['name'].errors['required']">Nome obrigatório</div>
-      <div *ngIf="f['name'].errors['minlength']">
-        Nome deve conter pelo menos 3 letras
+<div class="container mt-4">
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+    <fieldset>
+      <legend class="mt-4 mb-3">Dados pessoais</legend>
+      <div class="row">
+        <div class="col-4">
+          <mat-form-field appearance="outline">
+            <mat-label>Nome</mat-label>
+            <input formControlName="name" matInput type="text" />
+            <mat-error>Campo nome inválido</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Profissão</mat-label>
+            <input formControlName="profession" matInput type="text"/>
+            <mat-error>Campo profissão inválido</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field appearance="outline">
+            <mat-label>Data de nascimento</mat-label>
+            <input type="date" formControlName="birthDate" matInput />
+            <mat-error>Campo data de nascimento inválido</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field appearance="outline">
+            <mat-label>CPF</mat-label>
+            <input
+              formControlName="documentNumber"
+              mask="000.000.000-00"
+              matInput
+            />
+            <mat-error>Campo CPF inválido</mat-error>
+          </mat-form-field>
+        </div>
       </div>
-    </div>
-  </div>
-  <div class="mb-3 form-group">
-    <label for="profession" class="col-form-label">Profissão:</label>
-    <input
-      type="text"
-      class="form-control"
-      formControlName="profession"
-      id="profession"
-      [ngClass]="{
-        'is-invalid': f['profession'].errors && f['profession'].touched,
-        'is-valid': !f['profession'].errors && f['profession'].touched
-      }"
-    />
-    <div
-      *ngIf="f['profession'].errors && f['profession'].touched"
-      class="invalid-feedback"
-    >
-      <div *ngIf="f['profession'].errors['required']">
-        Profissão é obrigatória
-      </div>
-      <div *ngIf="f['profession'].errors['minlength']">
-        Profissão deve conter pelo menos 3 letras
-      </div>
-    </div>
-  </div>
-  <div class="mb-3 form-group">
-    <label for="birthDate" class="col-form-label">Data de Nascimento:</label>
-    <input
-      type="date"
-      class="form-control"
-      formControlName="birthDate"
-      id="birthDate"
-      [ngClass]="{
-        'is-invalid': f['birthDate'].errors && f['birthDate'].touched,
-        'is-valid': !f['birthDate'].errors && f['birthDate'].touched
-      }"
-    />
-    <div
-      *ngIf="f['birthDate'].errors && f['birthDate'].touched"
-      class="invalid-feedback"
-    >
-      <div *ngIf="f['birthDate'].errors['required']">
-        Data de Nascimento é obrigatória
-      </div>
-      <div *ngIf="f['birthDate'].errors['minlength']">
-        Data de Nascimento deve conter pelo menos 8 números.
-      </div>
-    </div>
-  </div>
+    </fieldset>
 
-  <div class="mb-3 form-group">
-    <label for="documentNumber" class="col-form-label">CPF:</label>
-    <input
-      type="text"
-      class="form-control"
-      formControlName="documentNumber"
-      id="documentNumber"
-      [ngClass]="{
-        'is-invalid': f['documentNumber'].errors && f['documentNumber'].touched,
-        'is-valid': !f['documentNumber'].errors && f['documentNumber'].touched
-      }"
-    />
-    <div
-      *ngIf="f['documentNumber'].errors && f['documentNumber'].touched"
-      class="invalid-feedback"
-    >
-      <div *ngIf="f['documentNumber'].errors['required']">
-        CPF é obrigatório
+    <fieldset formGroupName="address">
+      <legend class="mt-4 mb-3">Dados de endereço</legend>
+      <div class="row">
+        <div class="col-2">
+          <mat-form-field appearance="outline">
+            <mat-label>CEP</mat-label>
+            <input formControlName="zipCode" mask="00.000-000" matInput />
+            <mat-error>Campo CEP inválido</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-5">
+          <mat-form-field appearance="outline">
+            <mat-label>Rua</mat-label>
+            <input formControlName="street" matInput />
+            <mat-error>Campo rua inválido</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-2">
+          <mat-form-field appearance="outline">
+            <mat-label>Número</mat-label>
+            <input formControlName="number" mask="09999" matInput />
+            <mat-error>Campo número inválido</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Complemento</mat-label>
+            <input formControlName="complement" matInput />
+          </mat-form-field>
+        </div>
       </div>
-      <div *ngIf="f['documentNumber'].errors['minlength']">
-        CPF deve conter pelo menos 11 números.
+      <div class="row">
+        <div class="col-4">
+          <mat-form-field appearance="outline">
+            <mat-label>Bairro</mat-label>
+            <input formControlName="neighborhood" matInput />
+            <mat-error>Campo bairro inválido</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-4">
+          <mat-form-field appearance="outline">
+            <mat-label>Cidade</mat-label>
+            <input formControlName="city" matInput />
+            <mat-error>Campo cidade inválido</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-4">
+          <mat-form-field appearance="outline">
+            <mat-label>Estado</mat-label>
+            <mat-select formControlName="state">
+              <mat-option *ngFor="let state of states" [value]="state.abbr">{{
+                state.name
+              }}</mat-option>
+            </mat-select>
+            <mat-error>Campo estado inválido</mat-error>
+          </mat-form-field>
+        </div>
       </div>
-    </div>
-  </div>
-  <!-- ENDEREÇO -->
-  <div formGroupName="address">
-    <!-- CEP -->
-    <div class="mb-3 form-group">
-      <label for="zipCode" class="col-form-label">CEP:</label>
-      <input
-        type="number"
-        class="form-control"
-        formControlName="zipCode"
-        id="zipCode"
-        [ngClass]="{
-          'is-invalid':
-            userForm.get('address.zipCode')?.errors &&
-            userForm.get('address.zipCode')?.touched,
-          'is-valid':
-            !userForm.get('address.zipCode')?.errors &&
-            userForm.get('address.zipCode')?.touched
-        }"
-      />
-      <div
-        *ngIf="
-          userForm.get('address.zipCode')?.errors &&
-          userForm.get('address.zipCode')?.touched
-        "
-        class="invalid-feedback"
-      >
-        CEP deve conter pelo menos 8 números.
-      </div>
-    </div>
-    <!-- LOGRADOURO -->
-    <div class="mb-3 form-group">
-      <label for="street" class="col-form-label">Logradouro:</label>
-      <input
-        type="text"
-        class="form-control"
-        formControlName="street"
-        id="street"
-        [ngClass]="{
-          'is-invalid':
-            userForm.get('address.street')?.errors &&
-            userForm.get('address.street')?.touched,
-          'is-valid':
-            !userForm.get('address.street')?.errors &&
-            userForm.get('address.street')?.touched
-        }"
-      />
-      <div
-        *ngIf="f['address.street']?.errors && f['address.street']?.touched"
-        class="invalid-feedback"
-      >
-        Logradouro obrigatório e deve ter ao menos 3 letras.
-      </div>
-    </div>
-    <!-- NÚMERO -->
-    <div class="mb-3 form-group">
-      <label for="number" class="col-form-label">Número:</label>
-      <input
-        type="number"
-        class="form-control"
-        formControlName="number"
-        id="number"
-        [ngClass]="{
-          'is-invalid':
-            userForm.get('address.number')?.errors &&
-            userForm.get('address.number')?.touched,
-          'is-valid':
-            !userForm.get('address.number')?.errors &&
-            userForm.get('address.number')?.touched
-        }"
-      />
-      <div
-        *ngIf="f['address.number']?.errors && f['address.number']?.touched"
-        class="invalid-feedback"
-      >
-        Número obrigatório e deve conter ao menos 1 número.
-      </div>
-    </div>
-    <!-- COMPLEMENTO -->
-    <div class="mb-3 form-group">
-      <label for="complement" class="col-form-label">Complemento:</label>
-      <input
-        type="text"
-        class="form-control"
-        formControlName="complement"
-        id="complement"
-        [ngClass]="{
-          'is-invalid':
-            userForm.get('address.complement')?.errors &&
-            userForm.get('address.complement')?.touched,
-          'is-valid':
-            !userForm.get('address.complement')?.errors &&
-            userForm.get('address.complement')?.touched
-        }"
-      />
-      <div
-        *ngIf="
-          f['address.complement']?.errors && f['address.complement']?.touched
-        "
-        class="invalid-feedback"
-      ></div>
-    </div>
-    <!-- BAIRRO -->
-    <div class="mb-3 form-group">
-      <label for="neighborhood" class="col-form-label">Bairro:</label>
-      <input
-        type="text"
-        class="form-control"
-        formControlName="neighborhood"
-        id="neighborhood"
-        [ngClass]="{
-          'is-invalid':
-            userForm.get('address.neighborhood')?.errors &&
-            userForm.get('address.neighborhood')?.touched,
-          'is-valid':
-            !userForm.get('address.neighborhood')?.errors &&
-            userForm.get('address.neighborhood')?.touched
-        }"
-      />
-      <div
-        *ngIf="
-          f['address.neighborhood']?.errors &&
-          f['address.neighborhood']?.touched
-        "
-        class="invalid-feedback"
-      >
-        Bairro obrigatório e deve conter pelo menos 2 letras.
-      </div>
-    </div>
-    <!-- CIDADE -->
-    <div class="mb-3 form-group">
-      <label for="city" class="col-form-label">Cidade:</label>
-      <input
-        type="text"
-        class="form-control"
-        formControlName="city"
-        id="city"
-        [ngClass]="{
-          'is-invalid':
-            userForm.get('address.city')?.errors &&
-            userForm.get('address.city')?.touched,
-          'is-valid':
-            !userForm.get('address.city')?.errors &&
-            userForm.get('address.city')?.touched
-        }"
-      />
-      <div
-        *ngIf="f['address.city']?.errors && f['address.city']?.touched"
-        class="invalid-feedback"
-      >
-        Cidade obrigatório e deve conter pelo menos 3 letras.
-      </div>
-    </div>
-    <!-- ESTADO -->
-    <div class="mb-3 form-group">
-      <label for="state" class="col-form-label">Estado:</label>
-      <input
-        type="text"
-        class="form-control"
-        formControlName="state"
-        id="state"
-        [ngClass]="{
-          'is-invalid':
-            userForm.get('address.state')?.errors &&
-            userForm.get('address.state')?.touched,
-          'is-valid':
-            !userForm.get('address.state')?.errors &&
-            userForm.get('address.state')?.touched
-        }"
-      />
-      <div
-        *ngIf="f['address.state']?.errors && f['address.state']?.touched"
-        class="invalid-feedback"
-      >
-        Estado obrigatório e deve conter pelo menos 2 letras.
-      </div>
-    </div>
-  </div>
-  <!-- CONTATO -->
-  <div formGroupName="contact">
-    <div class="mb-3 form-group">
-      <label for="email" class="col-form-label">Email:</label>
-      <input
-        type="email"
-        class="form-control"
-        formControlName="email"
-        id="email"
-        placeholder="email@email.com"
-        [ngClass]="{
-          'is-invalid':
-            userForm.get('contact.email')?.errors &&
-            userForm.get('contact.email')?.touched,
-          'is-valid':
-            !userForm.get('contact.email')?.errors &&
-            userForm.get('contact.email')?.touched
-        }"
-      />
-      <div
-        *ngIf="f['contact.email']?.errors && f['contact.email']?.touched"
-        class="invalid-feedback"
-      >
-        Informe um email válido.
-      </div>
-    </div>
-    <div class="mb-3 form-group">
-      <label for="phone" class="col-form-label">Celular:</label>
-      <input
-        (keypress)="keyPress($event)"
-        type="text"
-        name="phone"
-        class="form-control"
-        formControlName="phone"
-        id="phone"
-        placeholder="(00) 00000-0000"
-        [ngClass]="{
-          'is-invalid':
-            userForm.get('contact.phone')?.errors &&
-            userForm.get('contact.phone')?.touched,
-          'is-valid':
-            !userForm.get('contact.phone')?.errors &&
-            userForm.get('contact.phone')?.touched
-        }"
-      />
-      <div
-        *ngIf="f['contact.phone']?.errors && f['contact.phone']?.touched"
-        class="invalid-feedback"
-      >
-        Número de telefone obrigatório e deve conter 11 caracteres numéricos.
-      </div>
-    </div>
-  </div>
+    </fieldset>
 
-  <button
-    type="button"
-    class="btn btn-secondary m-4"
-    data-bs-dismiss="modal"
-    (click)="closeForm()"
-  >
-    Fechar
-  </button>
-  <button
-    type="submit"
-    class="btn btn-primary m-4"
-    [disabled]="!userForm.valid"
-    data-bs-dismiss="modal"
-  >
-    Enviar
-  </button>
-</form>
+    <fieldset formGroupName="contact">
+      <legend class="mt-4 mb-3">Dados contato</legend>
+      <div class="row">
+        <div class="col-6">
+          <mat-form-field appearance="outline">
+            <mat-label>Telefone</mat-label>
+            <input formControlName="phone" mask="(00) 0 0000-0000" matInput type="tel"/>
+            <mat-error>Campo telefone inválido</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-6">
+          <mat-form-field appearance="outline">
+            <mat-label>E-mail</mat-label>
+            <input formControlName="email" matInput type="email"/>
+            <mat-error>Campo e-mail inválido</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </fieldset>
+
+    <div class="mt-3">
+      <button
+        type="submit"
+        mat-flat-button
+        color="primary"
+        [disabled]="userForm.invalid"
+      >
+        Salvar
+      </button>
+    </div>
+  </form>
+</div>
